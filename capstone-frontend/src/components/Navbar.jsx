@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router';
 import { useCartStore } from '../store/CartStore';
-import '../styles/navbar.css';
 
 const Navbar = () => {
   const { items } = useCartStore();

@@ -1,14 +1,7 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-.app {
-    background-color: #ede0d4;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-.main-content {
-    flex-grow: 1;
-    padding: 5px;
-}
+/*
+ * Main stylesheet for the Capstone Frontend project.
+ *
+ * This file imports Tailwind CSS and can be used to add custom global styles.
+ * All global styles and Tailwind directives should be placed here.
+ */
+@import "tailwindcss";
