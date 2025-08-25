@@ -16,9 +16,11 @@ const Home = () => {
     fetchProducts();
   }, []);
   return (
-    <main className='main-content'>
-      <h2>Home</h2>
-      <Products products={products} />
+    <main className="flex flex-col items-center justify-center min-h-[70vh] w-full px-4 py-8 bg-gray-50">
+      <h2 className="text-3xl font-bold text-gray-800 mb-6">Home</h2>
+      <div className="w-full max-w-6xl">
+        <Products products={products} />
+      </div>
     </main>
   )
 }
