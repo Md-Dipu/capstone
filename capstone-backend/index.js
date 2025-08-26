@@ -1,12 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const { env } = require("./config/env");
+
+const authRoutes = require("./routes/auth");
+
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: env.server.clientOrigin, credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Capstone Backend API");
