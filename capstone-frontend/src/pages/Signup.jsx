@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuthStore } from "../store/AuthStore";
 
 export default function Signup() {
-  const { handleSignup } = useAuth();
+  const { signup } = useAuthStore();
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [msg, setMsg] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const message = await handleSignup(form);
+      const message = await signup(form);
       setMsg(message);
     } catch (err) {
       setMsg(err.response?.data?.message || "Signup failed");
@@ -17,24 +17,24 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 py-8 px-4">
+    <div className="flex items-center justify-center min-h-screen px-4 py-8 bg-gradient-to-br from-blue-100 to-purple-200">
       <form
         onSubmit={onSubmit}
-        className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 space-y-6"
+        className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-xl"
       >
-        <h2 className="text-3xl font-bold text-center text-purple-700 mb-2">
+        <h2 className="mb-2 text-3xl font-bold text-center text-purple-700">
           Sign Up
         </h2>
         <div className="space-y-4">
           <input
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+            className="w-full px-4 py-2 transition border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
             placeholder="Name"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             required
           />
           <input
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+            className="w-full px-4 py-2 transition border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
             placeholder="Email"
             type="email"
             value={form.email}
@@ -42,7 +42,7 @@ export default function Signup() {
             required
           />
           <input
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+            className="w-full px-4 py-2 transition border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
             placeholder="Password"
             type="password"
             value={form.password}
@@ -52,7 +52,7 @@ export default function Signup() {
         </div>
         <button
           type="submit"
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg shadow transition"
+          className="w-full py-2 font-semibold text-white transition bg-purple-600 rounded-lg shadow hover:bg-purple-700"
         >
           Sign Up
         </button>

@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router";
 import { useCartStore } from "../store/CartStore";
-import { useAuth } from "../context/AuthContext";
+import { useAuthStore } from "../store/AuthStore";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, handleLogout } = useAuth();
+  const { user, logout } = useAuthStore();
   const { items } = useCartStore();
   const totalPrice = items?.reduce((total, item) => total + item.price, 0);
 
   return (
-    <nav className="bg-white shadow-md w-full z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <div className="flex-shrink-0 flex items-center">
+    <nav className="z-10 w-full bg-white shadow-md">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center flex-shrink-0">
             <h1 className="text-xl font-bold text-gray-800">Capstone</h1>
           </div>
-          <div className="hidden md:flex space-x-6 items-center">
+          <div className="items-center hidden space-x-6 md:flex">
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -29,7 +29,7 @@ const Navbar = () => {
             </NavLink>
             <NavLink
               to="#"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+              className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
             >
               Checkout ${totalPrice}
             </NavLink>
@@ -59,21 +59,21 @@ const Navbar = () => {
               </>
             ) : (
               <button
-                onClick={handleLogout}
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+                onClick={() => logout()}
+                className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
               >
                 Logout
               </button>
             )}
           </div>
-          <div className="md:hidden flex items-center">
+          <div className="flex items-center md:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="text-gray-700 hover:text-blue-600 focus:outline-none"
               aria-label="Toggle menu"
             >
               <svg
-                className="h-6 w-6"
+                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -101,8 +101,8 @@ const Navbar = () => {
       </div>
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white shadow-lg">
-          <div className="px-2 pt-2 pb-3 space-y-1 flex flex-col">
+        <div className="bg-white shadow-lg md:hidden">
+          <div className="flex flex-col px-2 pt-2 pb-3 space-y-1">
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -115,7 +115,7 @@ const Navbar = () => {
             </NavLink>
             <NavLink
               to="#"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-100 transition-colors duration-200"
+              className="block px-3 py-2 text-base font-medium text-gray-700 transition-colors duration-200 rounded-md hover:text-blue-600 hover:bg-gray-100"
             >
               Checkout ${totalPrice}
             </NavLink>
