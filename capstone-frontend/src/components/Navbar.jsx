@@ -28,10 +28,20 @@ const Navbar = () => {
               Home
             </NavLink>
             <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                `text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 ${
+                  isActive ? "underline" : ""
+                }`
+              }
+            >
+              Products
+            </NavLink>
+            <NavLink
               to="#"
               className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
             >
-              Checkout ${totalPrice}
+              Checkout ${totalPrice.toFixed(2)}
             </NavLink>
 
             {!user ? (

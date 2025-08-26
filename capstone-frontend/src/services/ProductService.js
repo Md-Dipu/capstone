@@ -1,12 +1,31 @@
 import { api } from "../libs/api";
 
-export async function getProducts() {
-  const { data } = await api.get("products");
+// Get all products with optional filters, sorting, searching, and pagination
+export const getProducts = async (params = {}) => {
+  const { data } = await api.get("/products", { params });
   return data;
-}
+};
 
-// This function retrieves a product by its ID and has been created for you, but you will need to import it in your components as needed.
-export async function getProductById(id) {
-  const { data } = await api.get(`products/${id}`);
+// Get a single product by ID
+export const getProductById = async (id) => {
+  const { data } = await api.get(`/products/${id}`);
   return data;
-}
+};
+
+// Create a new product (admin only)
+export const createProduct = async (product, config = {}) => {
+  const { data } = await api.post("/products", product, config);
+  return data;
+};
+
+// Update a product by ID (admin only)
+export const updateProduct = async (id, updates, config = {}) => {
+  const { data } = await api.put(`/products/${id}`, updates, config);
+  return data;
+};
+
+// Delete a product by ID (admin only)
+export const deleteProduct = async (id, config = {}) => {
+  const { data } = await api.delete(`/products/${id}`, config);
+  return data;
+};
