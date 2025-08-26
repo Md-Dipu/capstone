@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const config = require("./config/env");
+const { env } = require("./config/env");
 const app = express();
 
 app.use(cors());
@@ -28,11 +28,11 @@ app.get("/products", async (req, res) => {
 
 // Connect to MongoDB
 mongoose
-  .connect(config.dbUrl)
+  .connect(env.database.url)
   .then(() => {
-    app.listen(config.port, () => {
-      if (config.env !== "production") {
-        console.log(`Server running on http://localhost:${config.port}`);
+    app.listen(env.server.port, () => {
+      if (env.server.env !== "production") {
+        console.log(`Server running on http://localhost:${env.server.port}`);
       }
     });
   })
