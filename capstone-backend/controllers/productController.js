@@ -104,3 +104,17 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// Get all unique categories ordered by product count (desc)
+exports.getCategoriesByProductCount = async (req, res) => {
+  try {
+    const categories = await Product.aggregate([
+      { $group: { _id: "$category", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $project: { _id: 0, category: "$_id", count: 1 } },
+    ]);
+    res.json(categories);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

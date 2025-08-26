@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
-import { getProducts } from "../services/ProductService";
+import { getProducts, getCategories } from "../services/ProductService";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -9,13 +9,32 @@ const Products = () => {
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [total, setTotal] = useState(0);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
+  // Fetch categories on mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await getCategories();
+        // res is array of { category, count }
+        setCategories(res.map((c) => c.category));
+      } catch {
+        setCategories([]);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // Fetch products when page or selectedCategory changes
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await getProducts({ page, limit: 8 });
+        const params = { page, limit: 8 };
+        if (selectedCategory) params.category = selectedCategory;
+        const res = await getProducts(params);
         setProducts(res.products || []);
         setPages(res.pages || 1);
         setTotal(res.total || 0);
@@ -26,13 +45,47 @@ const Products = () => {
       }
     };
     fetchProducts();
-  }, [page]);
+  }, [page, selectedCategory]);
   return (
     <main className="min-h-screen px-4 py-10 bg-gradient-to-br from-blue-50 to-white">
       <div className="mx-auto max-w-7xl">
         <h1 className="mb-8 text-3xl font-bold text-center text-blue-800 drop-shadow-sm">
           Product Catalog
         </h1>
+        {/* Category Filter */}
+        {!loading && categories.length > 0 && (
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+            <button
+              className={`px-4 py-1 rounded-full border text-sm font-medium transition-colors border-blue-200 ${
+                !selectedCategory
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-blue-700 hover:bg-blue-50"
+              }`}
+              onClick={() => {
+                setSelectedCategory("");
+                setPage(1);
+              }}
+            >
+              All
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                className={`px-4 py-1 rounded-full border text-sm font-medium transition-colors border-blue-200 ${
+                  selectedCategory === cat
+                    ? "bg-blue-600 text-white"
+                    : "bg-white text-blue-700 hover:bg-blue-50"
+                }`}
+                onClick={() => {
+                  setSelectedCategory(cat);
+                  setPage(1);
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
         {loading && (
           <div className="flex items-center justify-center h-40">
             <div className="w-12 h-12 border-4 border-blue-300 rounded-full border-t-blue-600 animate-spin"></div>

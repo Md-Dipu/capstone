@@ -29,3 +29,9 @@ export const deleteProduct = async (id, config = {}) => {
   const { data } = await api.delete(`/products/${id}`, config);
   return data;
 };
+
+// Get product categories
+export const getCategories = async () => {
+  const { data } = await api.get("/products/categories");
+  return data;
+};
