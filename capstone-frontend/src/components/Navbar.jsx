@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { useCartStore } from "../store/CartStore";
 import { useAuthStore } from "../store/AuthStore";
+import Cart from "./Cart";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const { user, logout } = useAuthStore();
-  const { items } = useCartStore();
-  const totalPrice = items?.reduce((total, item) => total + item.price, 0);
+  // cartItems not needed in Navbar, only total and count are used
+  const total = useCartStore((s) => s.total());
+  const count = useCartStore((s) => s.count());
+  const navigate = useNavigate();
+  // total and count are now from store selectors
 
   return (
     <nav className="z-10 w-full bg-white shadow-md">
@@ -37,12 +42,18 @@ const Navbar = () => {
             >
               Products
             </NavLink>
-            <NavLink
-              to="#"
-              className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
+            <button
+              type="button"
+              className="relative font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
+              onClick={() => setCartOpen(true)}
             >
-              Checkout ${totalPrice.toFixed(2)}
-            </NavLink>
+              Checkout ${total.toFixed(2)}
+              {count > 0 && (
+                <span className="absolute -top-2 -right-4 bg-blue-600 text-white text-xs rounded-full px-2 py-0.5">
+                  {count}
+                </span>
+              )}
+            </button>
 
             {!user ? (
               <>
@@ -123,16 +134,47 @@ const Navbar = () => {
             >
               Home
             </NavLink>
-            <NavLink
-              to="#"
+            <button
+              type="button"
               className="block px-3 py-2 text-base font-medium text-gray-700 transition-colors duration-200 rounded-md hover:text-blue-600 hover:bg-gray-100"
+              onClick={() => setCartOpen(true)}
             >
-              Checkout ${totalPrice}
-            </NavLink>
+              Checkout ${total.toFixed(2)}
+              {count > 0 && (
+                <span className="ml-2 bg-blue-600 text-white text-xs rounded-full px-2 py-0.5">
+                  {count}
+                </span>
+              )}
+            </button>
             {/* Add more NavLinks here as needed */}
           </div>
         </div>
       )}
+
+      {/* Cart Side Panel */}
+      <div>
+        {/* Only show overlay and cart if open */}
+        <div
+          className={`fixed inset-0 z-40 transition-opacity duration-300 ${
+            cartOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
+          style={{
+            background: cartOpen ? "rgba(229, 231, 235, 0.4)" : "transparent",
+          }}
+          onClick={() => setCartOpen(false)}
+          aria-label="Close cart overlay"
+        />
+        <Cart
+          open={cartOpen}
+          onClose={() => setCartOpen(false)}
+          onCheckout={() => {
+            setCartOpen(false);
+            navigate("/checkout");
+          }}
+        />
+      </div>
     </nav>
   );
 };

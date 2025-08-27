@@ -2,7 +2,7 @@ import React from "react";
 import { useCartStore } from "../store/CartStore";
 
 const Card = ({ product }) => {
-  const addItem = useCartStore((state) => state.addItem);
+  const addItem = useCartStore((s) => s.addItem);
 
   return (
     <div className="flex flex-col w-full max-w-xs overflow-hidden transition-shadow bg-white border border-gray-100 shadow-lg rounded-xl hover:shadow-2xl">
