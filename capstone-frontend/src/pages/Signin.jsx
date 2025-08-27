@@ -1,16 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router";
 import { useAuthStore } from "../store/AuthStore";
 
 export default function Signin() {
   const { user, signin } = useAuthStore();
   const [form, setForm] = useState({ email: "", password: "" });
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get redirect_url from query params
+  const params = new URLSearchParams(location.search);
+  const redirectUrl = params.get("redirect_url") || "/";
+
+  useEffect(() => {
+    if (user) {
+      navigate(redirectUrl, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, navigate]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
       await signin(form);
       setMsg("Signin success");
+      // navigation will be handled by useEffect
     } catch (err) {
       setMsg(err.response?.data?.message || "Signin failed");
     }

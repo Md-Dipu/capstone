@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router";
+import Protected from "./components/Protected";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -20,9 +21,30 @@ const App = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/checkout/success" element={<CheckoutSuccess />} />
-        <Route path="/checkout/cancel" element={<CheckoutCancel />} />
+        <Route
+          path="/checkout"
+          element={
+            <Protected>
+              <Checkout />
+            </Protected>
+          }
+        />
+        <Route
+          path="/checkout/success"
+          element={
+            <Protected>
+              <CheckoutSuccess />
+            </Protected>
+          }
+        />
+        <Route
+          path="/checkout/cancel"
+          element={
+            <Protected>
+              <CheckoutCancel />
+            </Protected>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
