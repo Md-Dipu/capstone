@@ -6,8 +6,12 @@ const { env } = require("./config/env");
 
 const authRoutes = require("./routes/auth");
 const productRoutes = require("./routes/product");
+const paymentRoutes = require("./routes/payment");
 
 const app = express();
+
+const webhookRoutes = require("./routes/webhook");
+app.use("/stripe", webhookRoutes);
 
 app.use(cors({ origin: env.server.clientOrigin, credentials: true }));
 app.use(express.json());
@@ -16,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRoutes);
 app.use("/products", productRoutes);
+app.use("/payment", paymentRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Capstone Backend API");

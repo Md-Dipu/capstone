@@ -21,6 +21,10 @@ const env = {
     refreshCookieName: process.env.REFRESH_COOKIE_NAME,
     domain: process.env.COOKIE_DOMAIN,
   },
+  stripe: {
+    secretKey: process.env.STRIPE_SECRET_KEY,
+    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+  },
 };
 
 module.exports = { env };
