@@ -20,7 +20,6 @@ router.post(
 
       if (event.type === "checkout.session.completed") {
         const session = event.data.object;
-
         // Find order by session ID if you stored it
         // Or match user/amount
         const order = await Order.findOne({
@@ -30,6 +29,25 @@ router.post(
         if (order) {
           order.payment = "completed";
           order.status = "processing";
+          await order.save();
+        }
+      }
+
+      // Handle payment cancellation event
+      if (
+        event.type === "checkout.session.expired" ||
+        event.type === "checkout.session.async_payment_failed"
+      ) {
+        const session = event.data.object;
+        // Find order by session ID if you stored it
+        // Or match user/amount
+        const order = await Order.findOne({
+          amount: session.amount_total / 100,
+          payment: "pending",
+        });
+        if (order) {
+          order.payment = "failed";
+          order.status = "cancelled";
           await order.save();
         }
       }
