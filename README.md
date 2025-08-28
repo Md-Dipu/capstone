@@ -1,60 +1,134 @@
-# Path2Tech Capstone Full Stack 
+# Capstone: Full Stack E-Commerce Application
 
-A modern Full Stack project utilizing React, Express, and MongoDB to create a fully functional E-Commerce application
+> A modern, full stack e-commerce platform built with React, Express, and MongoDB.
 
-## Prerequisites
-- Node
-- NPM
-- MongoDB atlas account
+---
 
-## Checking Prerequisites
-1. Check that you have Node and NPM installed, open a terminal and run
+## Table of Contents
 
-```sh
-node --version
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Folder Structure](#folder-structure)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Project Overview
+
+Capstone is a full stack e-commerce web application designed to demonstrate modern web development best practices. It features a robust backend API, secure authentication, and a responsive frontend for seamless user experience.
+
+## Features
+
+- User authentication (signup, login, protected routes)
+- Product catalog and details
+- Shopping cart and order management
+- Checkout with payment integration (Stripe)
+- Order history and dashboard for users
+- Admin dashboard for product and order management
+- Responsive design with Tailwind CSS
+
+## Tech Stack
+
+**Frontend:**
+
+- React (Vite)
+- Tailwind CSS
+- Axios
+
+**Backend:**
+
+- Node.js
+- Express.js
+- MongoDB (Atlas)
+- JWT Authentication
+- Stripe API
+
+**Other:**
+
+- ESLint for code linting
+- RESTful API architecture
+
+## Folder Structure
+
+```
+├── capstone-backend/         # Express backend API
+│   ├── config/               # Environment configs
+│   ├── controllers/          # Route controllers
+│   ├── middleware/           # Auth and other middleware
+│   ├── models/               # Mongoose models
+│   ├── routes/               # API routes
+│   ├── utils/                # Utility functions
+│   └── index.js              # Entry point
+│
+├── capstone-frontend/        # React frontend
+│   ├── public/               # Static assets
+│   ├── src/
+│   │   ├── components/       # Reusable UI components
+│   │   ├── pages/            # Page components
+│   │   ├── services/         # API service modules
+│   │   ├── store/            # State management
+│   │   ├── styles/           # CSS
+│   │   └── main.jsx          # Entry point
+│   └── index.html
+│
+├── doc/                      # Documentation and images
+└── README.md                 # Project documentation
 ```
 
-```sh
-npm --version
-```
+## Getting Started
 
-If you get an error then you will need to go to [Download Node](https://nodejs.org/en/download) to download Node.js for your operating system.
+### Prerequisites
 
-## Installing Project
-1. Please make sure to fork this repository to your personal GitHub. You will find the button to fork this repository near the top right part of the screen.
+- [Node.js](https://nodejs.org/en/download)
+- [NPM](https://www.npmjs.com/get-npm)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 
-![Locate Fork GitHub Repo](doc/images/ForkRepo.png)
+### Installation
 
-Press this button and on the next screen it will give you the option to fork the repository make sure to click the green button title "Create fork" to fork the repositoy to your own GitHub
+1. **Fork and Clone the Repository**
+   - Fork this repo to your GitHub account.
+   - Clone it to your local machine:
+     ```sh
+     git clone https://github.com/<your-username>/<repo-name>.git
+     ```
+2. **Backend Setup**
+   - Navigate to the backend folder:
+     ```sh
+     cd capstone-backend
+     npm install
+     ```
+   - Configure environment variables as described in [capstone-backend/README.md](capstone-backend/README.md).
+3. **Frontend Setup**
+   - Navigate to the frontend folder:
+     ```sh
+     cd ../capstone-frontend
+     npm install
+     ```
 
-2. Clone the repository to your machine, to do this open a new terminal and run
+## Usage
 
-```sh
-https://github.com/<github_repo_owner>/<github_repo_name>.git
-```
+### Running the Application
 
-To get the GitHub URL to clone the repo click on the green button title "<> Code" this will open a dropdown and you can copy the URL to clone this git repository to your system.
+1. **Start the Backend**
+   ```sh
+   cd capstone-backend
+   npm start
+   ```
+2. **Start the Frontend**
+   ```sh
+   cd ../capstone-frontend
+   npm run dev
+   ```
+3. Open your browser and go to `http://localhost:5173` (or the port shown in the terminal) to view the app.
 
-![Clone GitHub URL](doc/images/CloneGitHubUrl.png)
+## Contributing
 
-3. Take a look at [Capstone Backend README](capstone-backend/README.md) and follow the directions to set up the environment variables to install a MongoDB database for the project
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
 
-## Running Project
-1. You will have to install your node packages from `package.json` to `node_modules`
+## License
 
-To accomplish this, open this project in Visual Studio Code, and open a new terminal session
-
-Run the command
-```sh
-npm install
-```
-
-2. To run the code you have two options, to run it with Visual Studio Code's GUI or to open a terminal and run the following command
-
-```sh
-npm start
-```
-
-
-## Final Notes
-If you followed all the steps above correctly your environment should be set up, if there are issues you will need to go back and fix them. Please read through the documentation and re-read if any errors occur while installing project.
+This project is licensed under the MIT License.
