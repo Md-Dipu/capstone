@@ -1,0 +1,6 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="40" cy="28" rx="18" ry="10" fill="#F472B6"/>
+  <rect x="30" y="38" width="20" height="28" rx="6" fill="#F9A8D4"/>
+  <polygon points="40,10 50,28 30,28" fill="#fff"/>
+  <rect x="36" y="66" width="8" height="8" rx="2" fill="#fff"/>
+</svg>
