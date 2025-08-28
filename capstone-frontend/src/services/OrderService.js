@@ -1,6 +1,6 @@
 import { api } from "../libs/api";
 
-const ORDER_ENDPOINT = "/order";
+const ORDER_ENDPOINT = "/orders";
 
 export const getOrders = () => api.get(ORDER_ENDPOINT);
 export const getOrderById = (id) => api.get(`${ORDER_ENDPOINT}/${id}`);

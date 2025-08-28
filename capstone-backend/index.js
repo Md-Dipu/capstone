@@ -7,6 +7,7 @@ const { env } = require("./config/env");
 const authRoutes = require("./routes/auth");
 const productRoutes = require("./routes/product");
 const paymentRoutes = require("./routes/payment");
+const orderRoutes = require("./routes/order");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/auth", authRoutes);
 app.use("/products", productRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/orders", orderRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Capstone Backend API");
