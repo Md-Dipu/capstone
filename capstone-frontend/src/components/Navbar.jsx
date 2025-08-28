@@ -8,11 +8,9 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const { user, logout } = useAuthStore();
-  // cartItems not needed in Navbar, only total and count are used
   const total = useCartStore((s) => s.total());
   const count = useCartStore((s) => s.count());
   const navigate = useNavigate();
-  // total and count are now from store selectors
 
   return (
     <nav className="z-10 w-full bg-white shadow-md">
@@ -92,6 +90,16 @@ const Navbar = () => {
                     Dashboard
                   </NavLink>
                 )}
+                <NavLink
+                  to="/order-history"
+                  className={({ isActive }) =>
+                    `text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 ${
+                      isActive ? "underline" : ""
+                    }`
+                  }
+                >
+                  Order History
+                </NavLink>
                 <button
                   onClick={() => logout()}
                   className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"

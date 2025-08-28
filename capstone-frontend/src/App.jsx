@@ -12,6 +12,7 @@ import Checkout from "./pages/Checkout";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import CheckoutCancel from "./pages/CheckoutCancel";
 import Dashboard from "./pages/Dashboard";
+import OrderHistory from "./pages/OrderHistory";
 
 const App = () => {
   return (
@@ -51,6 +52,14 @@ const App = () => {
           element={
             <Protected>
               <Dashboard />
+            </Protected>
+          }
+        />
+        <Route
+          path="/order-history"
+          element={
+            <Protected>
+              <OrderHistory />
             </Protected>
           }
         />
