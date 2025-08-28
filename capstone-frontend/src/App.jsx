@@ -11,6 +11,7 @@ import Products from "./pages/Products";
 import Checkout from "./pages/Checkout";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import CheckoutCancel from "./pages/CheckoutCancel";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
@@ -42,6 +43,14 @@ const App = () => {
           element={
             <Protected>
               <CheckoutCancel />
+            </Protected>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <Protected>
+              <Dashboard />
             </Protected>
           }
         />

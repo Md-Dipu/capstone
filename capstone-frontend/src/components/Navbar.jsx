@@ -79,12 +79,26 @@ const Navbar = () => {
                 </NavLink>
               </>
             ) : (
-              <button
-                onClick={() => logout()}
-                className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
-              >
-                Logout
-              </button>
+              <>
+                {user.role === "admin" && (
+                  <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                      `text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 ${
+                        isActive ? "underline" : ""
+                      }`
+                    }
+                  >
+                    Dashboard
+                  </NavLink>
+                )}
+                <button
+                  onClick={() => logout()}
+                  className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                >
+                  Logout
+                </button>
+              </>
             )}
           </div>
           <div className="flex items-center md:hidden">

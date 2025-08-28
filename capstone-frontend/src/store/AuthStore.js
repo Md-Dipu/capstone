@@ -37,8 +37,6 @@ export const useAuthStore = create(
         set({ user: null, accessToken: null });
       },
     }),
-    {
-      name: "auth-storage", // localStorage key
-    }
+    { name: "auth-storage" }
   )
 );
