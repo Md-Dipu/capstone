@@ -26,7 +26,9 @@ const ProductDashboard = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await getProducts();
+      const res = await getProducts({
+        limit: 0,
+      });
       setProducts(res.products || []);
     } catch (err) {
       setError(err.message || "Failed to fetch products");
