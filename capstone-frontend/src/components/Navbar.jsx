@@ -55,26 +55,30 @@ const Navbar = () => {
 
             {!user ? (
               <>
-                <NavLink
-                  to="/signin"
-                  className={({ isActive }) =>
-                    `text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 ${
-                      isActive ? "underline" : ""
-                    }`
-                  }
-                >
-                  Signin
-                </NavLink>
-                <NavLink
-                  to="/signup"
-                  className={({ isActive }) =>
-                    `text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 ${
-                      isActive ? "underline" : ""
-                    }`
-                  }
-                >
-                  Signup
-                </NavLink>
+                <div className="flex items-center gap-2">
+                  <NavLink
+                    to="/signin"
+                    className={({ isActive }) =>
+                      `px-4 py-2 rounded-md font-semibold transition-colors duration-200 border border-blue-600 text-blue-600 bg-white hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200 ${
+                        isActive
+                          ? "bg-blue-100 text-blue-700 border-blue-700"
+                          : ""
+                      }`
+                    }
+                  >
+                    Signin
+                  </NavLink>
+                  <NavLink
+                    to="/signup"
+                    className={({ isActive }) =>
+                      `px-4 py-2 rounded-md font-semibold transition-colors duration-200 border border-transparent text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200 ${
+                        isActive ? "bg-blue-700" : ""
+                      }`
+                    }
+                  >
+                    Signup
+                  </NavLink>
+                </div>
               </>
             ) : (
               <>
@@ -102,7 +106,7 @@ const Navbar = () => {
                 </NavLink>
                 <button
                   onClick={() => logout()}
-                  className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                  className="px-4 py-2 ml-2 font-semibold text-white transition-colors duration-200 bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-200"
                 >
                   Logout
                 </button>
@@ -144,31 +148,108 @@ const Navbar = () => {
       </div>
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="bg-white shadow-lg md:hidden">
-          <div className="flex flex-col px-2 pt-2 pb-3 space-y-1">
+        <div className="fixed left-0 z-50 w-full bg-white border-t border-gray-200 shadow-2xl top-16 md:hidden animate-slideDown">
+          <div className="flex flex-col px-4 pt-4 pb-4 space-y-2">
             <NavLink
               to="/"
               className={({ isActive }) =>
-                `block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-100 transition-colors duration-200 ${
-                  isActive ? "underline" : ""
+                `block w-full px-4 py-3 rounded-lg text-base font-semibold transition-colors duration-200 text-gray-700 hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus:bg-blue-100 ${
+                  isActive ? "bg-blue-100 text-blue-700" : ""
                 }`
               }
+              onClick={() => setMenuOpen(false)}
             >
               Home
             </NavLink>
+            <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                `block w-full px-4 py-3 rounded-lg text-base font-semibold transition-colors duration-200 text-gray-700 hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus:bg-blue-100 ${
+                  isActive ? "bg-blue-100 text-blue-700" : ""
+                }`
+              }
+              onClick={() => setMenuOpen(false)}
+            >
+              Products
+            </NavLink>
             <button
               type="button"
-              className="block px-3 py-2 text-base font-medium text-gray-700 transition-colors duration-200 rounded-md hover:text-blue-600 hover:bg-gray-100"
-              onClick={() => setCartOpen(true)}
+              className="block w-full px-4 py-3 text-base font-semibold text-left text-gray-700 transition-colors duration-200 rounded-lg hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus:bg-blue-100"
+              onClick={() => {
+                setCartOpen(true);
+                setMenuOpen(false);
+              }}
             >
               Checkout ${total.toFixed(2)}
               {count > 0 && (
-                <span className="ml-2 bg-blue-600 text-white text-xs rounded-full px-2 py-0.5">
+                <span className="ml-2 bg-blue-600 text-white text-xs rounded-full px-2 py-0.5 align-middle">
                   {count}
                 </span>
               )}
             </button>
-            {/* Add more NavLinks here as needed */}
+            <div className="my-2 border-t border-gray-200" />
+            {!user ? (
+              <>
+                <NavLink
+                  to="/signin"
+                  className={({ isActive }) =>
+                    `block w-full px-4 py-3 rounded-lg text-base font-semibold transition-colors duration-200 text-gray-700 hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus:bg-blue-100 ${
+                      isActive ? "bg-blue-100 text-blue-700" : ""
+                    }`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Signin
+                </NavLink>
+                <NavLink
+                  to="/signup"
+                  className={({ isActive }) =>
+                    `block w-full px-4 py-3 rounded-lg text-base font-semibold transition-colors duration-200 text-gray-700 hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus:bg-blue-100 ${
+                      isActive ? "bg-blue-100 text-blue-700" : ""
+                    }`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Signup
+                </NavLink>
+              </>
+            ) : (
+              <>
+                {user.role === "admin" && (
+                  <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                      `block w-full px-4 py-3 rounded-lg text-base font-semibold transition-colors duration-200 text-gray-700 hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus:bg-blue-100 ${
+                        isActive ? "bg-blue-100 text-blue-700" : ""
+                      }`
+                    }
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Dashboard
+                  </NavLink>
+                )}
+                <NavLink
+                  to="/order-history"
+                  className={({ isActive }) =>
+                    `block w-full px-4 py-3 rounded-lg text-base font-semibold transition-colors duration-200 text-gray-700 hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus:bg-blue-100 ${
+                      isActive ? "bg-blue-100 text-blue-700" : ""
+                    }`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Order History
+                </NavLink>
+                <button
+                  onClick={() => {
+                    logout();
+                    setMenuOpen(false);
+                  }}
+                  className="block w-full px-4 py-3 text-base font-semibold text-left text-gray-700 transition-colors duration-200 rounded-lg hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus:bg-blue-100"
+                >
+                  Logout
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
