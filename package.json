@@ -1,12 +1,22 @@
 {
   "name": "capstone",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"cd capstone-backend && npm install && npm run dev\" \"cd capstone-frontend && npm install && npm run dev\""
   },
-  "keywords": ["e-commerce", "MERN", "stripe", "react", "nodejs", "express", "mongodb", "mongoose", "zustand"],
+  "keywords": [
+    "e-commerce",
+    "MERN",
+    "stripe",
+    "react",
+    "nodejs",
+    "express",
+    "mongodb",
+    "mongoose",
+    "zustand"
+  ],
   "author": {
     "name": "Md. Dipu",
     "email": "srdipu@hotmail.com"
