@@ -4,6 +4,7 @@ import { getProductById } from "../services/ProductService";
 import { getProducts } from "../services/ProductService";
 import { useCartStore } from "../store/CartStore";
 import Card from "../components/Card";
+import { useRef } from "react";
 
 const Product = () => {
   const { productId } = useParams();
@@ -15,6 +16,10 @@ const Product = () => {
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [recent, setRecent] = useState([]);
+  const trackRef = useRef(null);
+  const rafRef = useRef(null);
+  const isPausedRef = useRef(false);
+  const scrollSpeed = 0.4; // pixels per frame (approx)
 
   useEffect(() => {
     let mounted = true;
@@ -57,6 +62,34 @@ const Product = () => {
     fetchRecent();
     return () => (mounted = false);
   }, []);
+
+  // Auto-scroll using RAF and allow manual controls
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || recent.length === 0) return;
+
+    // Ensure the duplicated content is wide enough
+    const step = () => {
+      if (isPausedRef.current) {
+        rafRef.current = requestAnimationFrame(step);
+        return;
+      }
+      // move by speed
+      track.scrollLeft += scrollSpeed;
+      // when we've scrolled past the first set, reset back
+      const half = track.scrollWidth / 2;
+      if (track.scrollLeft >= half) {
+        track.scrollLeft = track.scrollLeft - half;
+      }
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    rafRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [recent]);
 
   const onAddToCart = () => {
     if (!product) return;
@@ -124,22 +157,45 @@ const Product = () => {
 
         {/* Auto-scrolling horizontal track. Pause on hover. */}
         <div className="relative overflow-hidden">
-          <style>{`
-            @keyframes scroll-left {
-              0% { transform: translateX(0); }
-              100% { transform: translateX(-50%); }
-            }
-          `}</style>
+          <div className="flex items-center justify-between mb-2">
+            <button
+              aria-label="Scroll left"
+              onClick={() => {
+                const t = trackRef.current;
+                if (!t) return;
+                isPausedRef.current = true;
+                t.scrollLeft = Math.max(0, t.scrollLeft - 260);
+                // resume after short delay
+                setTimeout(() => (isPausedRef.current = false), 1200);
+              }}
+              className="px-3 py-1 text-sm font-medium text-gray-700 bg-white border rounded shadow-sm hover:bg-gray-50"
+            >
+              Prev
+            </button>
+
+            <button
+              aria-label="Scroll right"
+              onClick={() => {
+                const t = trackRef.current;
+                if (!t) return;
+                isPausedRef.current = true;
+                t.scrollLeft = t.scrollLeft + 260;
+                setTimeout(() => (isPausedRef.current = false), 1200);
+              }}
+              className="px-3 py-1 text-sm font-medium text-gray-700 bg-white border rounded shadow-sm hover:bg-gray-50"
+            >
+              Next
+            </button>
+          </div>
 
           <div
-            className="flex gap-4 py-4 will-change-transform"
-            style={{
-              display: "flex",
-              width: "max-content",
-              animation: `scroll-left 18s linear infinite`,
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
-            onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
+            ref={trackRef}
+            className="flex gap-4 py-4 overflow-x-auto no-scrollbar"
+            onMouseEnter={() => (isPausedRef.current = true)}
+            onMouseLeave={() => (isPausedRef.current = false)}
+            onPointerDown={() => (isPausedRef.current = true)}
+            onPointerUp={() => (isPausedRef.current = false)}
+            style={{ scrollBehavior: "smooth" }}
           >
             {/* Duplicate items to create seamless loop */}
             {[...recent, ...recent].map((p, idx) => (
