@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { getProductById } from "../services/ProductService";
 import { getProducts } from "../services/ProductService";
 import { useCartStore } from "../store/CartStore";
 import Card from "../components/Card";
-import { useRef } from "react";
 
 const Product = () => {
   const { productId } = useParams();
@@ -99,8 +98,67 @@ const Product = () => {
     }
   };
 
-  if (loading) return <div className="p-8">Loading product...</div>;
-  if (error) return <div className="p-8 text-red-600">{error}</div>;
+  const retryLoad = async () => {
+    setError(null);
+    setLoading(true);
+    try {
+      const p = await getProductById(productId);
+      setProduct(p);
+      // refresh recent products as well
+      const res = await getProducts({ page: 1, limit: 8, sort: "-createdAt" });
+      setRecent(res.products || []);
+    } catch (err) {
+      setError(err?.response?.data?.message || err.message || "Failed to load product");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading)
+    return (
+      <main className="p-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="h-64 bg-gray-100 rounded animate-pulse" />
+            <div>
+              <div className="w-3/4 h-6 mb-3 bg-gray-100 rounded animate-pulse" />
+              <div className="w-1/3 h-4 mb-2 bg-gray-100 rounded animate-pulse" />
+              <div className="w-1/4 h-8 mb-4 bg-gray-100 rounded animate-pulse" />
+              <div className="h-24 mb-4 bg-gray-100 rounded animate-pulse" />
+              <div className="flex items-center gap-4">
+                <div className="w-20 h-10 bg-gray-100 rounded animate-pulse" />
+                <div className="w-32 h-10 bg-gray-100 rounded animate-pulse" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+
+  if (error)
+    return (
+      <div className="p-6">
+        <div className="max-w-md p-6 mx-auto border border-red-100 rounded shadow bg-red-50">
+          <h3 className="mb-2 text-lg font-semibold text-red-700">Error loading product</h3>
+          <p className="mb-4 text-sm text-red-600">{error}</p>
+          <div className="flex gap-3">
+            <button
+              onClick={retryLoad}
+              className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
+            >
+              Retry
+            </button>
+            <button
+              onClick={() => navigate('/products')}
+              className="px-4 py-2 border rounded hover:bg-gray-100"
+            >
+              Back to products
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+
   if (!product) return <div className="p-8">Product not found</div>;
 
   return (
