@@ -1,11 +1,37 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { useCartStore } from "../store/CartStore";
 
 const Card = ({ product }) => {
   const addItem = useCartStore((s) => s.addItem);
+  const navigate = useNavigate();
+
+  // Navigate to product detail page
+  const goToProduct = () => navigate(`/product/${product._id || product.id || product.productId}`);
+
+  // Handle key press for accessibility (Enter or Space)
+  const onKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      goToProduct();
+    }
+  };
+
+  // Prevent clicks on the Add to Cart button from triggering navigation
+  const onAddClick = (e) => {
+    e.stopPropagation();
+    addItem(product);
+  };
 
   return (
-    <div className="flex flex-col w-full max-w-xs overflow-hidden transition-shadow bg-white border border-gray-100 shadow-lg rounded-xl hover:shadow-2xl">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={goToProduct}
+      onKeyDown={onKeyDown}
+      className="flex flex-col w-full max-w-xs overflow-hidden transition-shadow bg-white border border-gray-100 shadow-lg rounded-xl hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-300"
+      aria-label={`View details for ${product.name}`}
+    >
       <div className="flex items-center justify-center w-full h-48 overflow-hidden bg-gray-100">
         <img
           src={product.imageUrl}
@@ -35,7 +61,9 @@ const Card = ({ product }) => {
           </span>
           <button
             className="px-3 py-1 text-sm font-semibold text-white transition-colors bg-blue-600 rounded hover:bg-blue-700"
-            onClick={() => addItem(product)}
+            onClick={onAddClick}
+            onKeyDown={(e) => e.stopPropagation()} // ensure keyboard doesn't bubble to card
+            aria-label={`Add ${product.name} to cart`}
           >
             Add to Cart
           </button>

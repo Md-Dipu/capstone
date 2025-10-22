@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Products from "./pages/Products";
+import Product from "./pages/Product";
 import Checkout from "./pages/Checkout";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import CheckoutCancel from "./pages/CheckoutCancel";
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/product/:productId" element={<Product />} />
         <Route
           path="/checkout"
           element={
