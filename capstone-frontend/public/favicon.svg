@@ -1,0 +1,17 @@
+<svg width="320" height="240" viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Transparent background -->
+  <g>
+    <!-- Cart body -->
+    <rect x="50" y="70" width="220" height="90" rx="18" fill="#fff" fill-opacity="0.85" stroke="#A78BFA" stroke-width="4"/>
+    <!-- Cart handle -->
+    <rect x="240" y="40" width="16" height="60" rx="8" fill="#A78BFA"/>
+    <!-- Cart basket lines -->
+    <rect x="80" y="110" width="160" height="10" rx="4" fill="#DDD6FE"/>
+    <rect x="95" y="130" width="130" height="8" rx="3" fill="#DDD6FE"/>
+    <!-- Cart wheels -->
+    <circle cx="95" cy="180" r="16" fill="#7C3AED"/>
+    <circle cx="225" cy="180" r="16" fill="#7C3AED"/>
+    <!-- Cart shadow -->
+    <ellipse cx="160" cy="215" rx="80" ry="12" fill="#A78BFA" fill-opacity="0.15"/>
+  </g>
+</svg>
